@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Igralec" EntityType="Model.Store.Igralec" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Kvaliteta" EntityType="Model.Store.Kvaliteta" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Igralec_Kvaliteta" Association="Model.Store.FK_Igralec_Kvaliteta">
+            <End Role="Kvaliteta" EntitySet="Kvaliteta" />
+            <End Role="Igralec" EntitySet="Igralec" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Igralec">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ImePriimek" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IdKvaliteta" Type="int" />
+        </EntityType>
+        <EntityType Name="Kvaliteta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Utez" Type="int" Nullable="false" />
+          <Property Name="Naziv" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Igralec_Kvaliteta">
+          <End Role="Kvaliteta" Type="Model.Store.Kvaliteta" Multiplicity="0..1" />
+          <End Role="Igralec" Type="Model.Store.Igralec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kvaliteta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Igralec">
+              <PropertyRef Name="IdKvaliteta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TestekEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Igralec" EntityType="Model.Igralec" />
+          <EntitySet Name="Kvaliteta" EntityType="Model.Kvaliteta" />
+          <AssociationSet Name="FK_Igralec_Kvaliteta" Association="Model.FK_Igralec_Kvaliteta">
+            <End Role="Kvaliteta" EntitySet="Kvaliteta" />
+            <End Role="Igralec" EntitySet="Igralec" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Igralec">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ImePriimek" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="IdKvaliteta" />
+          <NavigationProperty Name="Kvaliteta" Relationship="Model.FK_Igralec_Kvaliteta" FromRole="Igralec" ToRole="Kvaliteta" />
+        </EntityType>
+        <EntityType Name="Kvaliteta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Utez" Nullable="false" />
+          <Property Type="String" Name="Naziv" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Igralecs" Relationship="Model.FK_Igralec_Kvaliteta" FromRole="Kvaliteta" ToRole="Igralec" />
+        </EntityType>
+        <Association Name="FK_Igralec_Kvaliteta">
+          <End Type="Model.Kvaliteta" Role="Kvaliteta" Multiplicity="0..1" />
+          <End Type="Model.Igralec" Role="Igralec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kvaliteta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Igralec">
+              <PropertyRef Name="IdKvaliteta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="TestekEntities">
+          <EntitySetMapping Name="Igralec">
+            <EntityTypeMapping TypeName="Model.Igralec">
+              <MappingFragment StoreEntitySet="Igralec">
+                <ScalarProperty Name="IdKvaliteta" ColumnName="IdKvaliteta" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ImePriimek" ColumnName="ImePriimek" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kvaliteta">
+            <EntityTypeMapping TypeName="Model.Kvaliteta">
+              <MappingFragment StoreEntitySet="Kvaliteta">
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="Utez" ColumnName="Utez" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
