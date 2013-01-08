@@ -1,5 +1,5 @@
 ﻿//'use strict';
-var ngIgralecApp = angular.module('igralecapp', [])
+var ngIgralecApp = angular.module('igralecapp', ['igralecServices'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/', {
@@ -19,24 +19,33 @@ var ngIgralecApp = angular.module('igralecapp', [])
             });
     }]);
 
+angular.module('igralecServices', ['ngResource'])
+    .factory('Igralec', function($resource){
+        return $resource('api/igralec/:id', {id:'@id'});
+    });
+
 var players = [
     {id: 1, name: "Joško Joras"},
     {id:2, name: "Perpetua Mobilia"}
 ];
 
-function MainCtrl($scope) {
-    $scope.players = players;
+function MainCtrl($scope, Igralec) {
+    $scope.players = Igralec.query();
+    //$scope.players = players;
 }
 
-function CreateCtrl($scope) {
-    $scope.players = [
-        {id: 1, name: "Joško Joras"},
-        {id:2, name: "Perpetua Mobilia"}
-    ];
+function CreateCtrl($scope, Igralec) {
+    Igralec.save($scope.player, {headers:{'Content-Type':'application/json'}});
 }
 
-function EditCtrl($scope, $location, $routeParams) {
-    $scope.player = findById(players, $routeParams.id);
+function EditCtrl($scope, $routeParams, Igralec) {
+    //$scope.player = findById(players, $routeParams.id);
+    $scope.player = Igralec.get({id:$routeParams.id});
+
+    $scope.save = function(){
+        Igralec.save($scope.player);
+    }
+
 }
 
 function findById(source, id) {
