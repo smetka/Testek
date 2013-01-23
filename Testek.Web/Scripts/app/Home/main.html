@@ -1,9 +1,12 @@
 ﻿<h3>Igralci</h3>
 <table class="table table-condensed">
     <tr ng-repeat="player in players">
-        <td>{{player.name}}</td>
-        <td>{{player.email}}</td>
-        <td><a href="#/edit/{{player.id}}" class="btn btn-mini"">Uredi</a></td>
+        <td>{{player.ImePriimek}}</td>
+        <td>{{player.Email}}</td>
+        <td>
+            <a href="#/edit/{{player.Id}}" class="btn btn-mini"">Uredi</a>
+            <a ng-click="delete($index)" class="btn btn-mini"><i class="icon-remove"></i></a>
+        </td>
     </tr>
 </table>
 <div class="form-actions">

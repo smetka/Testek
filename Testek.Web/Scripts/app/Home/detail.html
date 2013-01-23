@@ -1,20 +1,20 @@
 ﻿<form class="form-horizontal" name="igralecForm">
     <fieldset>
         <legend>Igralec</legend>
-        <div class="control-group" ng-class="{error: igralecForm.name.$invalid}">
+        <div class="control-group" ng-class="{error: igralecForm.ImePriimek.$invalid}">
             <label class="control-label">Name</label>
             <div class="controls">
-                <input type="text" name="name" ng-model="player.name" required>
-                <span ng-show="igralecForm.name.$error.required" class="help-inline">Polje ne sme biti prazno!</span>
+                <input type="text" name="ImePriimek" ng-model="player.ImePriimek" required>
+                <span ng-show="igralecForm.ImePriimek.$error.required" class="help-inline">Polje ne sme biti prazno!</span>
             </div>
         </div>
 
-        <div class="control-group" ng-class="{error: igralecForm.email.$invalid}">
+        <div class="control-group" ng-class="{error: igralecForm.Email.$invalid}">
             <label class="control-label">Email</label>
             <div class="controls">
-                <input type="email" name="email" ng-model="player.email" required>
-                <span ng-show="igralecForm.email.$error.required" class="help-inline">Polje ne sme biti prazno!</span>
-                <span ng-show="igralecForm.email.$error.email" class="help-inline">Ni v obliki emaila!</span>
+                <input type="email" name="Email" ng-model="player.Email" required>
+                <span ng-show="igralecForm.Email.$error.required" class="help-inline">Polje ne sme biti prazno!</span>
+                <span ng-show="igralecForm.Email.$error.email" class="help-inline">Ni v obliki emaila!</span>
             </div>
         </div>
     </fieldset>

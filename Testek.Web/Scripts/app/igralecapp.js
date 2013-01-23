@@ -21,29 +21,37 @@ var ngIgralecApp = angular.module('igralecapp', ['igralecServices'])
 
 angular.module('igralecServices', ['ngResource'])
     .factory('Igralec', function($resource){
-        return $resource('api/igralec/:id', {id:'@id'});
+        return $resource('api/igralec/:id',
+            {id:'@id'},
+            {update: {method:'PUT'}});
     });
 
-var players = [
-    {id: 1, name: "Joško Joras"},
-    {id:2, name: "Perpetua Mobilia"}
-];
-
-function MainCtrl($scope, Igralec) {
+function MainCtrl($scope, $location, Igralec) {
     $scope.players = Igralec.query();
     //$scope.players = players;
+    $scope.delete = function(idx){
+        var toDelete = $scope.players[idx];
+        Igralec.delete({id:toDelete.Id}, function(){
+            $scope.players.splice(idx, 1);
+        });
+    }
 }
 
-function CreateCtrl($scope, Igralec) {
-    Igralec.save($scope.player, {headers:{'Content-Type':'application/json'}});
+function CreateCtrl($scope, $location, Igralec) {
+    $scope.save = function(){
+        var i = new Igralec($scope.player);
+        i.$save();
+        $location.path('/');
+    };
 }
 
-function EditCtrl($scope, $routeParams, Igralec) {
+function EditCtrl($scope, $routeParams, $location, Igralec) {
     //$scope.player = findById(players, $routeParams.id);
     $scope.player = Igralec.get({id:$routeParams.id});
 
     $scope.save = function(){
-        Igralec.save($scope.player);
+        Igralec.update({id:$routeParams.id}, $scope.player);
+        $location.path('/');
     }
 
 }
